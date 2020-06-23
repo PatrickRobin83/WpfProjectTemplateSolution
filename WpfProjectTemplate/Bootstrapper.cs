@@ -10,8 +10,12 @@
  * @Version      1.0.0
  */
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
+using WpfProjectTemplate.ViewModels;
 
 namespace WpfProjectTemplate
 {
@@ -51,6 +55,30 @@ namespace WpfProjectTemplate
                 .ForEach(viewModelType => _container.RegisterPerRequest(
                     viewModelType, viewModelType.ToString(), viewModelType));
         }
+
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            DisplayRootViewFor<ShellViewModel>();
+        }
+
+        protected override object GetInstance(Type service, string key)
+        {
+            return _container.GetInstance(service, key);
+        }
+
+        #region Overrides of BootstrapperBase
+
+        protected override IEnumerable<object> GetAllInstances(Type service)
+        {
+            return _container.GetAllInstances(service);
+        }
+
+        protected override void BuildUp(object instance)
+        {
+            _container.BuildUp(instance);
+        }
+
+        #endregion
 
         #endregion
 
